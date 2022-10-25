@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager thisManager = null;  
     [SerializeField] private Text Txt_Score = null;
     [SerializeField] private Text Txt_Message = null;
     private int Score = 0;
+    private float scoreInterval =1f;
+    private float nextScore = 2.5f;
+
+    public Text ScoreText;
 
     void Start()
     {
@@ -20,19 +25,28 @@ public class GameManager : MonoBehaviour
     {
         if (Time.timeScale == 0 && Input.GetKeyDown(KeyCode.Return))
             StartGame();
-    }
 
-    public void UpdateScore(int value)
-    {
-        Score += value;
-        Txt_Score.text = "SCORE : " + Score;
+        if (Time.time >= nextScore)
+        {
+            nextScore= Time.time + scoreInterval;
+            Score++;
+        }
+
+        ScoreText.text = "Score : " + Score;
     }
+    
+
+    //public void UpdateScore(int value)
+    //{
+     //   Score += value;
+   //     Txt_Score.text = "SCORE : " + Score;
+    //}
 
     private void StartGame()
     {
         Score = 0;
         Time.timeScale = 1;
-        Txt_Message.text = "";
+        Txt_Message.text = "PRESS ENTER TO START GAME";
         Txt_Score.text = "SCORE : 0";
     }
 
@@ -41,5 +55,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         Txt_Message.text = "GAMEOVER! \nPRESS ENTER TO RESTART GAME.";
         Txt_Message.color = Color.red;
+       
     }
+
+
 }

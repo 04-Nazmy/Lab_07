@@ -1,6 +1,7 @@
 ﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //This script manages the behavior of individual obstacle
 public class Obstacle : MonoBehaviour
@@ -13,5 +14,16 @@ public class Obstacle : MonoBehaviour
             Destroy(gameObject);
         else
             transform.Translate(Vector3.right * Time.deltaTime * -Speed);
+    }
+
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag =="Player")
+        {
+            Destroy(collision.gameObject);
+            SceneManager.LoadScene("GameOver");
+
+        }
     }
 }
